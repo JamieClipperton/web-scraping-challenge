@@ -8,21 +8,18 @@ def init_browser():
     return Browser('chrome', **executable_path, headless=False)
 
 def scrape():
-    browser = init_browser()
     data = {}
-    output = mars_news(browser)
+    output = mars_news()
     data['news_title'] = output[0]
     data['news_paragraph'] = output[1]
-    data['mars_img']= mars_img(browser)
-    data['mars_facts'] = mars_fact(browser)
-    data['mars_hemisphere']= mars_hemisphere(browser)
+    data['mars_img']= mars_img()
+    data['mars_facts'] = mars_fact()
+    data['mars_hemisphere']= mars_hemisphere()
     return data
 
-def mars_news(browser):
+def mars_news():
     url = "https://redplanetscience.com/#"
     browser.visit(url)
-
-    time.sleep (10)
 
     html = browser.html
     soup = bs(html, 'html.parser')
@@ -32,11 +29,9 @@ def mars_news(browser):
     output = [rp_news_title, rp_news_p]
     return output
 
-def mars_img(browser):
+def mars_img():
     url_mars_img = "https://spaceimages-mars.com/image/featured/mars1"
     browser.visit(url_mars_img)
-
-    time.sleep(10)
 
     html = browser.html
     soup = bs(html, "html parser")
@@ -44,19 +39,22 @@ def mars_img(browser):
     img_url = "https://spaceimages-mars.com/" + img
     return img_url
 
-def mars_fact(browser):
+def mars_fact():
     import pandas as pd
     mars_facts_url = "https://galaxyfacts-mars.com/"
-    mars_df = pd.read_html(mars_facts_url)[0]
-    mars_table_html = mars_df.to_html(header= False, index= False)
-    return mars_table_html
+    browser.visit(mars_facts_url)
+    mars_facts = pd.read_html(mars_facts_url)
+    mars_facts = pd.DataFrame(mars_facts[0])
+    mars_facts.columns = ["Description", "Value"]
+    mars_facts = mars_facts.set_index("Description")
+    mars_table = mars_facts.to_html(header= True, index= True)
+    return mars_table
 
-def mars_hemisphere(browser):
+def mars_hemisphere():
     mars_hemi_images = []
     hemi_url = "https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars"
 
-    time.sleep(10)
-
+    
     browser.visit(hemi_url)
     html = browser.html
     soup = bs(html, "html.parser")
