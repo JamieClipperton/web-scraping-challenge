@@ -28,7 +28,7 @@
         <div class="row" id="mars-image">
             <div class="col-md-8">
                 <h3>Featured Mars Image</h3>
-                <img src= "{{mars.mars_img}}" alt="Mars Image">
+                <img src= "{{ mars.mars_img }}" alt="Mars Image">
             </div>
             <div class = "col-md-4">
                 <h4>Mars Facts</h4>
@@ -43,14 +43,39 @@
             {% for hemisphere in mars.mars_hemisphere %}
                 <div class = "col-md-6">
                     <div class = "thumbnail">
-                        <img src = "{{hemisphere.img_url}}">
+                        <img src = "{{ hemisphere.img_url }}">
                             <h3>{{hemisphere.title}}</h3>
                         </div>
                     </div>
             {% endfor %}
-                </div>
         </div>
     </div>
-</div>
+    <br>
+    <br>
+        <blockquote class="blockquote left-right card shadow shadow px-3 py-3">
+    
+            <section id="gallery" >
+                <div class="container">
+                    <h2 class="text-center">Mars Hemispheres</h2>
+                    <div class="row car-deck ">
+                        {% for hemisphere in mars.mars_hemisphere %}
+                        <div class="col-sm-12 col-lg-6 mb-6">
+                            <div class="card" >
+                                <img class="card-img-top" src="{{ hemisphere.img_url }}" alt="Mars Hemisphere">
+                                <div class="card-body">
+                                    <p class="card-title text-center ">{{ hemisphere.title }}</p>
+                                </div>
+                            </div>   
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+        </blockquote>
+    
+    
 </body>
+    
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    
 </html>

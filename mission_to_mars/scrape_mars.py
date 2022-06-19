@@ -67,3 +67,4 @@ def mars_hemisphere():
         image_url = soup.find('li').find('a')['href']
         mars_hemi_images.append({"title": title, "img_url": image_url})
     return mars_hemi_images
+
