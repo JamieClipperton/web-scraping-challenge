@@ -15,6 +15,7 @@ def scrape():
     data['mars_img']= mars_img()
     data['mars_facts'] = mars_fact()
     data['mars_hemisphere']= mars_hemisphere()
+    browser.quit()
     return data
 
 def mars_news():
@@ -27,6 +28,7 @@ def mars_news():
     rp_news_title = rp_article.find('div', class_="content_title").text
     rp_news_p = rp_article.find('div', class_="article_teaser_body").text
     output = [rp_news_title, rp_news_p]
+    browser.quit()
     return output
 
 def mars_img():
@@ -37,6 +39,7 @@ def mars_img():
     soup = bs(html, "html parser")
     img = soup.find('img', class_="thumb")['src']
     img_url = "https://spaceimages-mars.com/" + img
+    browser.quit()
     return img_url
 
 def mars_fact():
@@ -48,6 +51,7 @@ def mars_fact():
     mars_facts.columns = ["Description", "Value"]
     mars_facts = mars_facts.set_index("Description")
     mars_table = mars_facts.to_html(header= True, index= True)
+    browser.quit()
     return mars_table
 
 def mars_hemisphere():
@@ -66,5 +70,6 @@ def mars_hemisphere():
         soup = bs(browser.html, 'html.parser')
         image_url = soup.find('li').find('a')['href']
         mars_hemi_images.append({"title": title, "img_url": image_url})
+        browser.quit()
     return mars_hemi_images
 
