@@ -4,7 +4,7 @@ import time
 from webdriver_manager.chrome import ChromeDriverManager
 
 def init_browser():
-    executable_path = {'executable_path': ChromeDriverManager().install()}
+    executable_path = {'executable_path': "\Users\babyg\.wdm\drivers\chromedriver"}
     return Browser('chrome', **executable_path, headless=False)
 
 def scrape():
