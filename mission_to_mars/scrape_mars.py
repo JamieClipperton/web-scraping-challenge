@@ -80,4 +80,5 @@ def marsHem():
         mars_hemisphere.append(dictionary)
     return mars_hemisphere
 
-
+if __name__ == "__main__":
+    print(scrape_all())
