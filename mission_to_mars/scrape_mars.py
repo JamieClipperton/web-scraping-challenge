@@ -1,23 +1,30 @@
 from splinter import Browser, browser
 from bs4 import BeautifulSoup as bs
 import time
+import pandas as pd
+import datetime as dt
 from webdriver_manager.chrome import ChromeDriverManager
 
-def init_browser():
-    executable_path = {'executable_path': ChromeDriverManager().install}
-    return Browser('chrome', **executable_path, headless=False)
+def scrape_all():
+    executable_path = {'executable_path': ChromeDriverManager().install()}
+    browser= Browser('chrome', **executable_path, headless=True)
 
-def scrape():
-    final_data = {}
-    output = marsNews()
-    final_data['mars_news'] = output[0]
-    final_data['mars_paragraph'] = output[1]
-    final_data['mars_image']= marsImage()
-    final_data['mars_facts'] = marsFact()
-    final_data['mars_hemisphere']= marsHem()
+    news_title, news_p = marsNews(browser)
+
+    final_data = {
+        "news_title": news_title,
+        "news_p": news_p,
+        "featured_image": marsImage(browser),
+        "facts": marsFact(),
+        "hemispheres": marsHem(browser),
+        "last_modified": dt.datetime.now()
+    }
+
+    browser.quit()
     return final_data
+    
 
-def marsNews():
+def marsNews(browser):
     news_url = "https://redplanetscience.com/#"
     browser.visit(news_url)
     html = browser.html
