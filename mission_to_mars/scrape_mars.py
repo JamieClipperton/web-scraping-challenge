@@ -8,68 +8,69 @@ def init_browser():
     return Browser('chrome', **executable_path, headless=False)
 
 def scrape():
-    data = {}
-    output = mars_news()
-    data['news_title'] = output[0]
-    data['news_paragraph'] = output[1]
-    data['mars_img']= mars_img()
-    data['mars_facts'] = mars_fact()
-    data['mars_hemisphere']= mars_hemisphere()
-    browser.quit()
-    return data
+    final_data = {}
+    output = marsNews()
+    final_data['mars_news'] = output[0]
+    final_data['mars_paragraph'] = output[1]
+    final_data['mars_image']= marsImage()
+    final_data['mars_facts'] = marsFact()
+    final_data['mars_hemisphere']= marsHem()
+    return final_data
 
-def mars_news():
-    url = "https://redplanetscience.com/#"
-    browser.visit(url)
-
+def marsNews():
+    news_url = "https://redplanetscience.com/#"
+    browser.visit(news_url)
     html = browser.html
     soup = bs(html, 'html.parser')
-    rp_article = soup.find('div', class_="list_text")
-    rp_news_title = rp_article.find('div', class_="content_title").text
-    rp_news_p = rp_article.find('div', class_="article_teaser_body").text
-    output = [rp_news_title, rp_news_p]
-    browser.quit()
+    article = soup.find('div', class_="list_text")
+    news_title = article.find('div', class_="content_title").text
+    news_p = article.find('div', class_="article_teaser_body").text
+    output = [news_title, news_p]
     return output
 
-def mars_img():
-    url_mars_img = "https://spaceimages-mars.com/image/featured/mars1"
-    browser.visit(url_mars_img)
-
+def marsImage():
+    image_url = "https://spaceimages-mars.com/"
+    browser.visit(image_url)
     html = browser.html
     soup = bs(html, "html parser")
-    img = soup.find('img', class_="thumb")['src']
-    img_url = "https://spaceimages-mars.com/" + img
-    browser.quit()
-    return img_url
+    image = soup.find('img',)['src']
+    featured_image_url ="https://spaceimages-mars.com/image/featured/mars2.jpg"
+    return featured_image_url
 
-def mars_fact():
+def marsFact():
     import pandas as pd
     mars_facts_url = "https://galaxyfacts-mars.com/"
     browser.visit(mars_facts_url)
-    mars_facts = pd.read_html(mars_facts_url)
-    mars_facts = pd.DataFrame(mars_facts[0])
-    mars_facts.columns = ["Description", "Value"]
-    mars_facts = mars_facts.set_index("Description")
-    mars_table = mars_facts.to_html(header= True, index= True)
-    browser.quit()
-    return mars_table
+    mars_data = pd.read_html(mars_facts_url)
+    mars_data = pd.DataFrame(mars_data[0])
+    mars_data.columns = ["Description", "Value"]
+    mars_data = mars_data.set_index("Description")
+    mars_facts = mars_data.to_html(header= True, index= True)
+    return mars_facts
 
-def mars_hemisphere():
-    mars_hemi_images = []
-    hemi_url = "https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars"
-
-    
-    browser.visit(hemi_url)
+def marsHem():
+    import time
+    hemispheres_url = "https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars"
+    browser.visit(hemispheres_url)
     html = browser.html
     soup = bs(html, "html.parser")
-    list = soup.find_all('div', class_="item")
-    for a in list:
-        title = a.find('h3').text
-        hem_url = "https://astrogeology.usgs.gov/" + a.find("a")["href"]
-        browser.visit(hem_url)
-        soup = bs(browser.html, 'html.parser')
-        image_url = soup.find('li').find('a')['href']
-        mars_hemi_images.append({"title": title, "img_url": image_url})
-        browser.quit()
-    return mars_hemi_images
+    mars_hemisphere= []
+
+    products = soup.find("div", class_= "result-list")
+    hemispheres = products.find_all("div", class_="item")
+
+    for hemisphere in hemispheres:  
+        title = hemisphere.find("h3").text
+        title = title.replace("Enhanced", "")
+        end_link = hemisphere.find("a")["href"]
+        image_link = "https://astrogeology.usgs.gov/" + end_link    
+        browser.visit(image_link)
+        html = browser.html
+        soup=bs(html, "html.parser")
+        downloads = soup.find("div", class_="downloads")
+        image_url = downloads.find("a")["href"]
+        dictionary = {"title": title, "img_url": image_url}
+        mars_hemisphere.append(dictionary)
+    return mars_hemisphere
+
 
