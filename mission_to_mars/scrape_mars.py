@@ -7,7 +7,7 @@ import os
 
 
 def scrape_all():
-    executable_path = {'executable_path': 'chromedriver.exe'}
+    executable_path = {'executable_path': 'ChromeDriverManager().install()'}
     browser= Browser('chrome', **executable_path, headless=True)
 
     news_title, news_p = marsNews(browser)
