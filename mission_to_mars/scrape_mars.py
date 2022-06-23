@@ -3,7 +3,6 @@ from bs4 import BeautifulSoup as bs
 import pandas as pd
 import datetime as dt
 from webdriver_manager.chrome import ChromeDriverManager
-import os
 
 
 def scrape_all():
