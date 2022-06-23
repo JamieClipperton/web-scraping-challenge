@@ -42,7 +42,7 @@ def marsNews(browser):
     return news_title, news_p
 
 def marsImage(browser):
-    image_url = "https://data-class-mars.s3.amazonaws.com/Mars/index.html"
+    image_url = "https://data-class-jpl-space.s3.amazonaws.com/JPL_Space/index.html"
     browser.visit(image_url)
     big_img = browser.find_by_tag('button')[1]
     big_img.click()
@@ -54,11 +54,11 @@ def marsImage(browser):
     except AttributeError:
         return None
 
-    featured_image_url = f'https://spaceimages-mars.com/{image}'
+    featured_image_url = f'https://data-class-jpl-space.s3.amazonaws.com/JPL_Space/{image}'
     return featured_image_url
 
 def marsFact(browser):
-    mars_facts_url = "https://galaxyfacts-mars.com/"
+    mars_facts_url = "https://data-class-jpl-space.s3.amazonaws.com/JPL_Space/index.html"
     browser.visit(mars_facts_url)
     mars_data = pd.read_html(mars_facts_url)
     mars_data = pd.DataFrame(mars_data[0])
