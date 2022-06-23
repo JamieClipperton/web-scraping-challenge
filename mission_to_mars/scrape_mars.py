@@ -6,7 +6,7 @@ import datetime as dt
 from webdriver_manager.chrome import ChromeDriverManager
 
 def scrape_all():
-    executable_path = {'executable_path': ChromeDriverManager().install()}
+    executable_path = {'executable_path': 'chromedriver.exe'}
     browser= Browser('chrome', **executable_path, headless=True)
 
     news_title, news_p = marsNews(browser)
@@ -28,24 +28,35 @@ def marsNews(browser):
     news_url = "https://redplanetscience.com/#"
     browser.visit(news_url)
     html = browser.html
-    soup = bs(html, 'html.parser')
-    article = soup.find('div', class_="list_text")
-    news_title = article.find('div', class_="content_title").text
-    news_p = article.find('div', class_="article_teaser_body").text
-    output = [news_title, news_p]
-    return output
+    browser.is_element_present_by_css('div.list_text', wait_time=1)
+    sour = bs(html, 'html.parser')
+
+    try:
+        sour_elem = sour.select_one('div.list_text')
+        news_title = sour_elem.find('div', class_="content_title").text
+        news_p = sour_elem.find('div', class_="article_teaser_body").text
+    except AttributeError:
+        return None, None
+
+    return news_title, news_p
 
 def marsImage():
     image_url = "https://spaceimages-mars.com/"
     browser.visit(image_url)
+    big_img = browser.find_by_tag('button')[1]
+    big_img.click()
     html = browser.html
-    soup = bs(html, "html parser")
-    image = soup.find('img',)['src']
-    featured_image_url ="https://spaceimages-mars.com/image/featured/mars2.jpg"
+    cur_img = bs(html, "html parser")
+
+    try:
+        image = cur_img.find("img", class_='fancybox-image').get('src')
+    except AttributeError:
+        return None
+
+    featured_image_url = f'https://spaceimages-mars.com/{image}'
     return featured_image_url
 
 def marsFact():
-    import pandas as pd
     mars_facts_url = "https://galaxyfacts-mars.com/"
     browser.visit(mars_facts_url)
     mars_data = pd.read_html(mars_facts_url)
