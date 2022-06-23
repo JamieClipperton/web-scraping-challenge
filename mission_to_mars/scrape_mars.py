@@ -1,9 +1,10 @@
-from splinter import Browser, browser
+from splinter import Browser
 from bs4 import BeautifulSoup as bs
-import time
 import pandas as pd
 import datetime as dt
 from webdriver_manager.chrome import ChromeDriverManager
+import os
+
 
 def scrape_all():
     executable_path = {'executable_path': 'chromedriver.exe'}
@@ -25,7 +26,7 @@ def scrape_all():
     
 
 def marsNews(browser):
-    news_url = "https://redplanetscience.com/#"
+    news_url = "https://data-class-mars.s3.amazonaws.com/Mars/index.html"
     browser.visit(news_url)
     html = browser.html
     browser.is_element_present_by_css('div.list_text', wait_time=1)
@@ -40,8 +41,8 @@ def marsNews(browser):
 
     return news_title, news_p
 
-def marsImage():
-    image_url = "https://spaceimages-mars.com/"
+def marsImage(browser):
+    image_url = "https://data-class-mars.s3.amazonaws.com/Mars/index.html"
     browser.visit(image_url)
     big_img = browser.find_by_tag('button')[1]
     big_img.click()
@@ -56,7 +57,7 @@ def marsImage():
     featured_image_url = f'https://spaceimages-mars.com/{image}'
     return featured_image_url
 
-def marsFact():
+def marsFact(browser):
     mars_facts_url = "https://galaxyfacts-mars.com/"
     browser.visit(mars_facts_url)
     mars_data = pd.read_html(mars_facts_url)
@@ -66,7 +67,7 @@ def marsFact():
     mars_facts = mars_data.to_html(header= True, index= True)
     return mars_facts
 
-def marsHem():
+def marsHem(browser):
     import time
     hemispheres_url = "https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars"
     browser.visit(hemispheres_url)
