@@ -1,5 +1,5 @@
 from splinter import Browser
-from bs4 import BeautifulSoup as bs
+from bs4 import BeautifulSoup as bs 
 import pandas as pd
 import datetime as dt
 from webdriver_manager.chrome import ChromeDriverManager
@@ -29,7 +29,7 @@ def marsNews(browser):
     browser.visit(news_url)
     html = browser.html
     browser.is_element_present_by_css('div.list_text', wait_time=1)
-    sour = bs(html, 'html.parser')
+    sour = bs(html, "html parser")
 
     try:
         sour_elem = sour.select_one('div.list_text')
@@ -46,7 +46,7 @@ def marsImage(browser):
     big_img = browser.find_by_tag('button')[1]
     big_img.click()
     html = browser.html
-    cur_img = bs(html, "html parser")
+    cur_img = bs(html, features="xml")
 
     try:
         image = cur_img.find("img", class_='fancybox-image').get('src')
