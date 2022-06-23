@@ -29,7 +29,7 @@ def marsNews(browser):
     browser.visit(news_url)
     html = browser.html
     browser.is_element_present_by_css('div.list_text', wait_time=1)
-    sour = bs(html, "html parser")
+    sour = bs(html, features="xml")
 
     try:
         sour_elem = sour.select_one('div.list_text')
@@ -71,7 +71,7 @@ def marsHem(browser):
     hemispheres_url = "https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars"
     browser.visit(hemispheres_url)
     html = browser.html
-    soup = bs(html, "html.parser")
+    soup = bs(html, features="xml")
     mars_hemisphere= []
 
     products = soup.find("div", class_= "result-list")
@@ -84,7 +84,7 @@ def marsHem(browser):
         image_link = "https://astrogeology.usgs.gov/" + end_link    
         browser.visit(image_link)
         html = browser.html
-        soup=bs(html, "html.parser")
+        soup=bs(html, features="xml")
         downloads = soup.find("div", class_="downloads")
         image_url = downloads.find("a")["href"]
         dictionary = {"title": title, "img_url": image_url}
