@@ -1,4 +1,6 @@
-# web-scraping-challenge
+# web-scraping-challenge- Mission to Mars
+![image](https://user-images.githubusercontent.com/101610081/182186961-74b83f33-4531-4c23-acaf-4e8a2c8d8361.png)
+
 Step 1 - Scraping
 Complete your initial scraping using Jupyter Notebook, BeautifulSoup, Pandas, and Requests/Splinter.
 
@@ -9,6 +11,7 @@ NASA Mars News
 
 Scrape the Mars News Site and collect the latest News Title and Paragraph Text. Assign the text to variables that you can reference later.
 
+![image](https://user-images.githubusercontent.com/101610081/182187186-67fe92d6-8e86-4c35-a95c-81b94b77f101.png)
 
 
 JPL Mars Space Images - Featured Image
@@ -35,6 +38,7 @@ Visit the Mars Facts webpage here and use Pandas to scrape the table containing 
 
 Use Pandas to convert the data to a HTML table string.
 
+![image](https://user-images.githubusercontent.com/101610081/182187362-13b7c1f5-6702-4073-9d35-f68d2af6d38d.png)
 
 
 Mars Hemispheres
@@ -69,3 +73,5 @@ Create a root route / that will query your Mongo database and pass the mars data
 
 
 Create a template HTML file called index.html that will take the mars data dictionary and display all of the data in the appropriate HTML elements. Use the following as a guide for what the final product should look like, but feel free to create your own design.
+
+![image](https://user-images.githubusercontent.com/101610081/182187562-8742b16d-7a98-4edc-8400-61a5f38c3253.png)
