@@ -59,7 +59,7 @@ def marsImage(browser):
     featured_image_url = f'https://spaceimages-mars.com/{image}'
     return featured_image_url
 
-def marsFact():
+def marsFact(browser):
     try:
         facts_df=pd.read_html('https://galaxyfacts-mars.com')[0]
     except BaseException:
